@@ -13,6 +13,9 @@ type OptionProps = {
 	onClick: (value: OptionType['value']) => void;
 };
 
+// Вспомогательный тип для строковых ключей стилей
+type StyleKey = Extract<keyof typeof styles, string>;
+
 export const Option = (props: OptionProps) => {
 	const {
 		option: { value, title, optionClassName, className },
@@ -20,11 +23,20 @@ export const Option = (props: OptionProps) => {
 	} = props;
 	const optionRef = useRef<HTMLLIElement>(null);
 
-	const handleClick =
-		(clickedValue: OptionType['value']): MouseEventHandler<HTMLLIElement> =>
-		() => {
+	const handleClick = (
+		clickedValue: OptionType['value']
+	): MouseEventHandler<HTMLLIElement> => {
+		return () => {
 			onClick(clickedValue);
 		};
+	};
+
+	// Исправленный тип-гард: используем вспомогательный тип StyleKey
+	const isValidStyleClass = (
+		className: string | undefined
+	): className is StyleKey => {
+		return !!className && className in styles;
+	};
 
 	useEnterOptionSubmit({
 		optionRef,
@@ -34,7 +46,12 @@ export const Option = (props: OptionProps) => {
 
 	return (
 		<li
-			className={clsx(styles.option, styles[optionClassName || ''])}
+			className={clsx(
+				styles.option,
+				optionClassName &&
+					isValidStyleClass(optionClassName) &&
+					styles[optionClassName]
+			)}
 			value={value}
 			onClick={handleClick(value)}
 			tabIndex={0}
