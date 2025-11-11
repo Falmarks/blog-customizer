@@ -4,6 +4,7 @@ import { Select } from 'src/ui/select';
 import { Separator } from 'src/ui/separator';
 import { ArticleState } from 'src/types/article';
 import {
+	OptionType,
 	fontFamilyOptions,
 	fontSizeOptions,
 	fontColors,
@@ -13,6 +14,7 @@ import {
 } from 'src/constants/articleProps';
 
 import styles from './ArticleParamsForm.module.scss';
+import { useState, useEffect } from 'react';
 
 type ArticleParamsFormProps = {
 	articleState: ArticleState;
@@ -27,33 +29,54 @@ export const ArticleParamsForm = ({
 	isOpen,
 	onToggle,
 }: ArticleParamsFormProps) => {
+	const [tempArticleState, setTempArticleState] = useState(articleState);
+
+	useEffect(() => {
+		if (isOpen) {
+			setTempArticleState(articleState);
+		}
+	}, [articleState, isOpen]);
+
 	const handleReset = () => {
-		setArticleState(defaultArticleState);
+		setTempArticleState(defaultArticleState);
 	};
 
-	const handleSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
+	const handleApply = () => {
+		setArticleState(tempArticleState);
 		onToggle();
 	};
+
+	const handleSelectChange = (
+		field: keyof ArticleState,
+		option: OptionType
+	) => {
+		setTempArticleState((prev) => ({
+			...prev,
+			[field]: option,
+		}));
+	};
+
+	if (!isOpen) {
+		return (
+			<>
+				<ArrowButton isOpen={isOpen} onClick={onToggle} />
+				<aside className={styles.container}></aside>
+			</>
+		);
+	}
 
 	return (
 		<>
 			<ArrowButton isOpen={isOpen} onClick={onToggle} />
-			<aside
-				className={`${styles.container} ${
-					isOpen ? styles.container_open : ''
-				}`}>
-				<form className={styles.form} onSubmit={handleSubmit}>
+			<aside className={`${styles.container} ${styles.container_open}`}>
+				<div className={styles.form}>
 					<div className={styles.formContent}>
 						<Select
 							title='Шрифт'
-							selected={articleState.fontFamilyOption}
+							selected={tempArticleState.fontFamilyOption}
 							options={fontFamilyOptions}
 							onChange={(option) =>
-								setArticleState({
-									...articleState,
-									fontFamilyOption: option,
-								})
+								handleSelectChange('fontFamilyOption', option)
 							}
 						/>
 
@@ -61,13 +84,10 @@ export const ArticleParamsForm = ({
 
 						<Select
 							title='Размер шрифта'
-							selected={articleState.fontSizeOption}
+							selected={tempArticleState.fontSizeOption}
 							options={fontSizeOptions}
 							onChange={(option) =>
-								setArticleState({
-									...articleState,
-									fontSizeOption: option,
-								})
+								handleSelectChange('fontSizeOption', option)
 							}
 						/>
 
@@ -75,27 +95,19 @@ export const ArticleParamsForm = ({
 
 						<Select
 							title='Цвет шрифта'
-							selected={articleState.fontColor}
+							selected={tempArticleState.fontColor}
 							options={fontColors}
-							onChange={(option) =>
-								setArticleState({
-									...articleState,
-									fontColor: option,
-								})
-							}
+							onChange={(option) => handleSelectChange('fontColor', option)}
 						/>
 
 						<Separator />
 
 						<Select
 							title='Цвет фона'
-							selected={articleState.backgroundColor}
+							selected={tempArticleState.backgroundColor}
 							options={backgroundColors}
 							onChange={(option) =>
-								setArticleState({
-									...articleState,
-									backgroundColor: option,
-								})
+								handleSelectChange('backgroundColor', option)
 							}
 						/>
 
@@ -103,27 +115,28 @@ export const ArticleParamsForm = ({
 
 						<Select
 							title='Ширина контента'
-							selected={articleState.contentWidth}
+							selected={tempArticleState.contentWidth}
 							options={contentWidthArr}
-							onChange={(option) =>
-								setArticleState({
-									...articleState,
-									contentWidth: option,
-								})
-							}
+							onChange={(option) => handleSelectChange('contentWidth', option)}
 						/>
 					</div>
 
 					<div className={styles.bottomContainer}>
 						<Button
 							title='Сбросить'
-							htmlType='reset'
-							type='clear'
+							variant='clear'
 							onClick={handleReset}
+							type='button'
 						/>
-						<Button title='Применить' htmlType='submit' type='apply' />
+
+						<Button
+							title='Применить'
+							variant='apply'
+							onClick={handleApply}
+							type='button'
+						/>
 					</div>
-				</form>
+				</div>
 			</aside>
 		</>
 	);

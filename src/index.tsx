@@ -2,8 +2,8 @@ import { createRoot } from 'react-dom/client';
 import { StrictMode, CSSProperties, useState } from 'react';
 import clsx from 'clsx';
 
-import { Article } from './components/article/Article';
-import { ArticleParamsForm } from './components/article-params-form/ArticleParamsForm';
+import { Article } from 'components/article';
+import { ArticleParamsForm } from 'components/article-params-form';
 import { defaultArticleState } from './constants/articleProps';
 import { ArticleState } from './types/article';
 
@@ -18,25 +18,31 @@ const App = () => {
 		useState<ArticleState>(defaultArticleState);
 	const [isFormOpen, setIsFormOpen] = useState(false);
 
+	const toggleForm = () => {
+		setIsFormOpen(!isFormOpen);
+	};
+
 	return (
-		<main
-			className={clsx(styles.main)}
-			style={
-				{
-					'--font-family': articleState.fontFamilyOption.value,
-					'--font-size': articleState.fontSizeOption.value,
-					'--font-color': articleState.fontColor.value,
-					'--container-width': articleState.contentWidth.value,
-					'--bg-color': articleState.backgroundColor.value,
-				} as CSSProperties
-			}>
+		<main className={clsx(styles.main)}>
 			<ArticleParamsForm
 				articleState={articleState}
 				setArticleState={setArticleState}
 				isOpen={isFormOpen}
-				onToggle={() => setIsFormOpen(!isFormOpen)}
+				onToggle={toggleForm}
 			/>
-			<Article />
+
+			<div
+				style={
+					{
+						'--font-family': articleState.fontFamilyOption.value,
+						'--font-size': articleState.fontSizeOption.value,
+						'--font-color': articleState.fontColor.value,
+						'--container-width': articleState.contentWidth.value,
+						'--bg-color': articleState.backgroundColor.value,
+					} as CSSProperties
+				}>
+				<Article articleState={articleState} />
+			</div>
 		</main>
 	);
 };

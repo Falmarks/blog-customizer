@@ -8,24 +8,33 @@
 	text-align: center;
 	border: 1px solid #000000;
 	cursor: pointer;
-}
 
-.button_apply {
-	background-color: #ffc802;
-}
+	&_apply {
+		background-color: #ffc802;
 
-.button_clear {
-	background-color: white;
-}
+		&:hover {
+			background-color: #ffedab;
+		}
+	}
 
-.button_apply:hover {
-	background-color: #ffedab;
-}
+	&_clear {
+		background-color: white;
 
-.button_clear:hover {
-	background-color: #000000;
-}
+		&:hover {
+			background-color: #000000;
 
-.button_clear:hover .text {
-	color: white;
+			.text {
+				color: white;
+			}
+		}
+	}
+
+	&_disabled {
+		cursor: not-allowed;
+		opacity: 0.5;
+
+		&:hover {
+			background-color: inherit;
+		}
+	}
 }

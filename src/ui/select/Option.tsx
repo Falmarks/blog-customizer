@@ -13,7 +13,6 @@ type OptionProps = {
 	onClick: (value: OptionType['value']) => void;
 };
 
-// Вспомогательный тип для строковых ключей стилей
 type StyleKey = Extract<keyof typeof styles, string>;
 
 export const Option = (props: OptionProps) => {
@@ -31,7 +30,6 @@ export const Option = (props: OptionProps) => {
 		};
 	};
 
-	// Исправленный тип-гард: используем вспомогательный тип StyleKey
 	const isValidStyleClass = (
 		className: string | undefined
 	): className is StyleKey => {
