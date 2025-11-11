@@ -2,7 +2,7 @@
 	color: #000000;
 	font-weight: $weight;
 	font-size: $size;
-	font-family: $family;
+	font-family: $family, sans-serif;
 	line-height: normal;
 	letter-spacing: 0;
 }
@@ -20,7 +20,7 @@
 }
 
 .cormorant-garamond {
-	font-family: 'Cormorant Garamond', sans-serif;
+	font-family: 'Cormorant Garamond', serif;
 }
 
 .days-one {
@@ -28,7 +28,7 @@
 }
 
 .merriweather {
-	font-family: 'Merriweather', sans-serif;
+	font-family: 'Merriweather', serif;
 }
 
 .left {
@@ -91,7 +91,7 @@
 	color: var(--font-color, #000000) !important;
 	font-weight: inherit !important;
 	font-size: var(--font-size, 18px) !important;
-	font-family: var(--font-family, 'Open Sans') !important;
+	font-family: var(--font-family, 'Open Sans'), sans-serif !important;
 	font-style: inherit !important;
 	line-height: normal !important;
 	letter-spacing: 0 !important;
@@ -102,7 +102,7 @@
 .dynamicLite {
 	color: var(--font-color, #000000) !important;
 	font-weight: inherit !important;
-	font-family: var(--font-family, 'Open Sans') !important;
+	font-family: var(--font-family, 'Open Sans'), sans-serif !important;
 	font-style: inherit !important;
 	line-height: normal !important;
 	letter-spacing: 0 !important;

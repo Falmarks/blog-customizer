@@ -88,8 +88,6 @@ video {
 	border: 0;
 }
 
-/* HTML5 display-role reset for older browsers */
-
 article,
 aside,
 details,
@@ -129,7 +127,6 @@ blockquote::after,
 q::before,
 q::after {
 	content: '';
-	content: none;
 }
 
 table {
@@ -137,12 +134,10 @@ table {
 	border-spacing: 0;
 }
 
-/* Принудительное применение CSS переменных ко всем динамическим текстам */
-
 .dynamic,
 .dynamicLite {
 	color: var(--font-color, #000000) !important;
-	font-family: var(--font-family, 'Open Sans') !important;
+	font-family: var(--font-family, 'Open Sans'), sans-serif !important;
 }
 
 .dynamic {
@@ -153,21 +148,15 @@ table {
 	font-size: inherit !important;
 }
 
-/* Гарантируем, что CSS переменные применяются ко всем элементам внутри article */
-
 article {
 	color: var(--font-color, #000000) !important;
-	font-family: var(--font-family, 'Open Sans') !important;
+	font-family: var(--font-family, 'Open Sans'), sans-serif !important;
 	background-color: var(--bg-color, #ffffff) !important;
-
-	/* Применяем ко всем дочерним элементам */
 
 	& * {
 		color: var(--font-color, #000000) !important;
-		font-family: var(--font-family, 'Open Sans') !important;
+		font-family: var(--font-family, 'Open Sans'), sans-serif !important;
 	}
-
-	/* Для динамических элементов дополнительно применяем размер шрифта */
 
 	.dynamic {
 		font-size: var(--font-size, 18px) !important;
