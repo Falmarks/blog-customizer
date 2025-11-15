@@ -6,6 +6,7 @@ import arrowDown from 'src/images/arrow-down.svg';
 import { Option } from './Option';
 import { useOutsideClickClose } from './hooks/useOutsideClickClose';
 import { useEnterSubmit } from './hooks/useEnterSubmit';
+import clsx from 'clsx';
 
 import styles from './Select.module.scss';
 
@@ -20,7 +21,7 @@ type SelectProps = {
 
 export const Select = (props: SelectProps) => {
 	const { options, placeholder, selected, onChange, onClose, title } = props;
-	const [isOpen, setIsOpen] = useState<boolean>(false);
+	const [isOpen, setIsOpen] = useState(false);
 	const rootRef = useRef<HTMLDivElement>(null);
 	const placeholderRef = useRef<HTMLDivElement>(null);
 
@@ -45,8 +46,30 @@ export const Select = (props: SelectProps) => {
 	};
 
 	const handlePlaceHolderClick: MouseEventHandler<HTMLDivElement> = () => {
-		setIsOpen((isOpen) => !isOpen);
+		setIsOpen((prev) => !prev);
 	};
+
+	const shouldShowIcon =
+		selected?.optionClassName &&
+		(selected.optionClassName.includes('wide') ||
+			selected.optionClassName.includes('narrow') ||
+			selected.optionClassName.includes('option-'));
+
+	const selectedContent = !selected ? (
+		<Text>{placeholder}</Text>
+	) : shouldShowIcon ? (
+		<div className={styles.selectedWithIcon}>
+			<span
+				className={clsx(
+					styles.optionIcon, // Тот же класс что и в Option
+					selected.optionClassName && styles[selected.optionClassName]
+				)}
+			/>
+			<Text>{selected.title}</Text>
+		</div>
+	) : (
+		<Text>{selected.title}</Text>
+	);
 
 	return (
 		<div className={styles.container}>
@@ -60,15 +83,15 @@ export const Select = (props: SelectProps) => {
 				ref={rootRef}
 				data-is-active={isOpen}
 				data-testid='selectWrapper'>
-				<img src={arrowDown} alt='иконка стрелочки' className={styles.arrow} />
+				<img src={arrowDown} alt='' className={styles.arrow} />
 				<div
 					className={styles.placeholder}
-					data-selected={!!selected?.value}
+					data-selected={!!selected}
 					onClick={handlePlaceHolderClick}
 					role='button'
 					tabIndex={0}
 					ref={placeholderRef}>
-					<Text>{selected?.title || placeholder}</Text>
+					{selectedContent}
 				</div>
 				{isOpen && (
 					<ul className={styles.select} data-testid='selectDropdown'>
