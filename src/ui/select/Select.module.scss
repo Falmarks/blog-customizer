@@ -26,7 +26,7 @@
 	height: 50px;
 	padding: 15px 17px;
 	background: rgb(255 255 255);
-	outline: 1px solid #000000;
+	border: 1px solid #000000;
 	cursor: pointer;
 }
 
@@ -40,16 +40,18 @@
 }
 
 .selectWrapper[data-is-active='true'] .placeholder {
-	outline: 3px solid #000000;
+	border: 3px solid #000000;
 }
 
 .selectWrapper:not([data-is-active='true'])
 	.placeholder:not([data-status='invalid']):hover {
-	outline: 1px solid #ffc802;
+	border: 1px solid #ffc802;
 }
 
 .select {
 	position: absolute;
+	top: 100%;
+	left: 0;
 	z-index: 10;
 	display: grid;
 	box-sizing: border-box;
@@ -58,11 +60,12 @@
 	padding: 0;
 	list-style: none;
 	background-color: rgb(255 255 255 / 100%);
+	border: 3px solid #000000;
 	border-top: none;
-	outline: 3px solid #000000;
 }
 
 .option {
+	position: relative;
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;

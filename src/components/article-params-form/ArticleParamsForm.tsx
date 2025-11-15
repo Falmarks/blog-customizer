@@ -14,7 +14,8 @@ import {
 } from 'src/constants/articleProps';
 
 import styles from './ArticleParamsForm.module.scss';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
+import clsx from 'clsx';
 
 type ArticleParamsFormProps = {
 	articleState: ArticleState;
@@ -41,7 +42,8 @@ export const ArticleParamsForm = ({
 		setTempArticleState(defaultArticleState);
 	};
 
-	const handleApply = () => {
+	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
 		setArticleState(tempArticleState);
 		onToggle();
 	};
@@ -56,20 +58,16 @@ export const ArticleParamsForm = ({
 		}));
 	};
 
-	if (!isOpen) {
-		return (
-			<>
-				<ArrowButton isOpen={isOpen} onClick={onToggle} />
-				<aside className={styles.container}></aside>
-			</>
-		);
-	}
+	const containerClassName = clsx(
+		styles.container,
+		isOpen && styles.container_open
+	);
 
 	return (
 		<>
 			<ArrowButton isOpen={isOpen} onClick={onToggle} />
-			<aside className={`${styles.container} ${styles.container_open}`}>
-				<div className={styles.form}>
+			<aside className={containerClassName}>
+				<form className={styles.form} onSubmit={handleSubmit}>
 					<div className={styles.formContent}>
 						<Select
 							title='Шрифт'
@@ -129,14 +127,9 @@ export const ArticleParamsForm = ({
 							type='button'
 						/>
 
-						<Button
-							title='Применить'
-							variant='apply'
-							onClick={handleApply}
-							type='button'
-						/>
+						<Button title='Применить' variant='apply' type='submit' />
 					</div>
-				</div>
+				</form>
 			</aside>
 		</>
 	);
