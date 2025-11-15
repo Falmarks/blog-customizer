@@ -42,6 +42,12 @@ export const Option = (props: OptionProps) => {
 		onClick,
 	});
 
+	// Проверяем, нужно ли показывать иконку
+	const shouldShowIcon =
+		optionClassName?.includes('wide') ||
+		optionClassName?.includes('narrow') ||
+		optionClassName?.includes('option-');
+
 	return (
 		<li
 			className={clsx(
@@ -55,6 +61,14 @@ export const Option = (props: OptionProps) => {
 			tabIndex={0}
 			data-testid={`select-option-${value}`}
 			ref={optionRef}>
+			{shouldShowIcon && (
+				<span
+					className={clsx(
+						styles.optionIcon,
+						optionClassName && styles[optionClassName]
+					)}
+				/>
+			)}
 			<Text family={isFontFamilyClass(className) ? className : undefined}>
 				{title}
 			</Text>

@@ -5,7 +5,7 @@
 .container {
 	display: flex;
 	flex-direction: column;
-	row-gap: 4px;
+	gap: 4px;
 }
 
 .arrow {
@@ -19,32 +19,32 @@
 
 .placeholder {
 	display: flex;
-	justify-content: flex-start;
 	align-items: center;
 	box-sizing: border-box;
 	width: 100%;
 	height: 50px;
 	padding: 15px 17px;
-	background: rgb(255 255 255);
+	background: #ffffff;
 	border: 1px solid #000000;
 	cursor: pointer;
+
+	&[data-selected='true'] {
+		color: #000000;
+	}
 }
 
-.placeholder[data-selected='true'] {
-	color: rgb(0 0 0);
+.selectWrapper[data-is-active='true'] {
+	.arrow {
+		margin-top: -14px;
+		transform: rotate(180deg);
+	}
+
+	.placeholder {
+		border: 3px solid #000000;
+	}
 }
 
-.selectWrapper[data-is-active='true'] .arrow {
-	margin-top: -14px;
-	transform: rotate(180deg);
-}
-
-.selectWrapper[data-is-active='true'] .placeholder {
-	border: 3px solid #000000;
-}
-
-.selectWrapper:not([data-is-active='true'])
-	.placeholder:not([data-status='invalid']):hover {
+.selectWrapper:not([data-is-active='true']) .placeholder:hover {
 	border: 1px solid #ffc802;
 }
 
@@ -59,7 +59,7 @@
 	margin: 0;
 	padding: 0;
 	list-style: none;
-	background-color: rgb(255 255 255 / 100%);
+	background: #ffffff;
 	border: 3px solid #000000;
 	border-top: none;
 }
@@ -67,144 +67,161 @@
 .option {
 	position: relative;
 	display: flex;
-	justify-content: flex-start;
 	align-items: center;
 	height: 30px;
 	padding: 15px 17px;
-	background-color: rgb(255 255 255 / 100%);
-	border: 1px;
+	background: #ffffff;
 	cursor: pointer;
+
+	&[aria-selected='true'] {
+		background: rgb(0 0 0 / 5%);
+	}
+
+	&:hover {
+		background: #c4c4c4;
+	}
 }
 
-.option[aria-selected='true'] {
-	background-color: rgb(0 0 0 / 5%);
-}
-
-.option:hover {
-	background: var(--grey, #c4c4c4);
-}
-
-@mixin option-color-before {
-	content: '';
-	width: 35px;
-	height: 35px;
+.optionIcon {
+	position: relative;
+	flex-shrink: 0;
+	width: 24px;
+	height: 24px;
 	margin-right: 10px;
-}
-
-.option-black::before {
-	@include option-color-before;
-	background-color: #000000;
-}
-
-@mixin option-color-after {
-	content: '';
-	position: absolute;
-	left: 26px;
-	width: 17px;
-	height: 17px;
-	border-radius: 100%;
-}
-
-.option-black[data-selected='true']::after {
-	@include option-color-after;
-	background-color: #ffffff;
-}
-
-.option-white::before {
-	@include option-color-before;
-	box-sizing: border-box;
-	background-color: #ffffff;
 	border: 1px solid #000000;
 }
 
-.option-white[data-selected='true']::after {
-	@include option-color-after;
+.option-black .optionIcon {
 	background-color: #000000;
 }
 
-.option-gray::before {
-	@include option-color-before;
+.option-white .optionIcon {
+	background-color: #ffffff;
+}
+
+.option-gray .optionIcon {
 	background-color: #c4c4c4;
 }
 
-.option-gray[data-selected='true']::after {
-	@include option-color-after;
-	background-color: #ffffff;
-}
-
-.option-pink::before {
-	@include option-color-before;
+.option-pink .optionIcon {
 	background-color: #feafe8;
 }
 
-.option-pink[data-selected='true']::after {
-	@include option-color-after;
-	background-color: #ffffff;
-}
-
-.option-fuchsia::before {
-	@include option-color-before;
+.option-fuchsia .optionIcon {
 	background-color: #fd24af;
 }
 
-.option-fuchsia[data-selected='true']::after {
-	@include option-color-after;
-	background-color: #ffffff;
-}
-
-.option-yellow::before {
-	@include option-color-before;
+.option-yellow .optionIcon {
 	background-color: #ffc802;
 }
 
-.option-yellow[data-selected='true']::after {
-	@include option-color-after;
-	background-color: #ffffff;
-}
-
-.option-green::before {
-	@include option-color-before;
+.option-green .optionIcon {
 	background-color: #80d994;
 }
 
-.option-green[data-selected='true']::after {
-	@include option-color-after;
-	background-color: #ffffff;
-}
-
-.option-blue::before {
-	@include option-color-before;
+.option-blue .optionIcon {
 	background-color: #6fc1fd;
 }
 
-.option-blue[data-selected='true']::after {
-	@include option-color-after;
-	background-color: #ffffff;
-}
-
-.option-purple::before {
-	@include option-color-before;
+.option-purple .optionIcon {
 	background-color: #5f0dee;
 }
 
-.option-purple[data-selected='true']::after {
-	@include option-color-after;
-	background-color: #ffffff;
-}
-
-@mixin option-width-before {
-	content: '';
+.option-wide .optionIcon,
+.option-narrow .optionIcon {
 	width: 25px;
 	height: 25px;
-	margin-right: 10px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	border: none;
 }
 
-.option-wide::before {
-	@include option-width-before;
+.option-wide .optionIcon {
 	background-image: url('../../images/wide.svg');
 }
 
-.option-narrow::before {
-	@include option-width-before;
+.option-narrow .optionIcon {
+	background-image: url('../../images/narrow.svg');
+}
+
+.selectedWithIcon {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.selectedWithIcon .optionIcon.option-black {
+	background-color: #000000;
+}
+
+.selectedWithIcon .optionIcon.option-white {
+	background-color: #ffffff;
+}
+
+.selectedWithIcon .optionIcon.option-gray {
+	background-color: #c4c4c4;
+}
+
+.selectedWithIcon .optionIcon.option-pink {
+	background-color: #feafe8;
+}
+
+.selectedWithIcon .optionIcon.option-fuchsia {
+	background-color: #fd24af;
+}
+
+.selectedWithIcon .optionIcon.option-yellow {
+	background-color: #ffc802;
+}
+
+.selectedWithIcon .optionIcon.option-green {
+	background-color: #80d994;
+}
+
+.selectedWithIcon .optionIcon.option-blue {
+	background-color: #6fc1fd;
+}
+
+.selectedWithIcon .optionIcon.option-purple {
+	background-color: #5f0dee;
+}
+
+.selectedWithIcon .optionIcon::after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 8px;
+	height: 8px;
+	background: #ffffff;
+	border-radius: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.selectedWithIcon .optionIcon.option-white::after {
+	background: #000000;
+}
+
+.selectedWithIcon .optionIcon.option-wide,
+.selectedWithIcon .optionIcon.option-narrow {
+	width: 25px;
+	height: 25px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	border: none;
+}
+
+.selectedWithIcon .optionIcon.option-wide::after,
+.selectedWithIcon .optionIcon.option-narrow::after {
+	display: none;
+}
+
+.selectedWithIcon .optionIcon.option-wide {
+	background-image: url('../../images/wide.svg');
+}
+
+.selectedWithIcon .optionIcon.option-narrow {
 	background-image: url('../../images/narrow.svg');
 }

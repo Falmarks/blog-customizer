@@ -2,6 +2,7 @@ import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
 import { Select } from 'src/ui/select';
 import { Separator } from 'src/ui/separator';
+import { RadioGroup } from 'src/ui/radio-group';
 import { ArticleState } from 'src/types/article';
 import {
 	OptionType,
@@ -77,19 +78,15 @@ export const ArticleParamsForm = ({
 								handleSelectChange('fontFamilyOption', option)
 							}
 						/>
-
-						<Separator />
-
-						<Select
+						<RadioGroup
 							title='Размер шрифта'
-							selected={tempArticleState.fontSizeOption}
+							name='fontSize'
 							options={fontSizeOptions}
+							selected={tempArticleState.fontSizeOption}
 							onChange={(option) =>
 								handleSelectChange('fontSizeOption', option)
 							}
 						/>
-
-						<Separator />
 
 						<Select
 							title='Цвет шрифта'
@@ -108,8 +105,6 @@ export const ArticleParamsForm = ({
 								handleSelectChange('backgroundColor', option)
 							}
 						/>
-
-						<Separator />
 
 						<Select
 							title='Ширина контента'
