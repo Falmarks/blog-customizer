@@ -1,12 +1,15 @@
 import clsx from 'clsx';
-
-// Сообщаем вебпаку, что этот файл использует это изображение.
 import plane from 'src/images/plane.png';
 import { Text } from 'src/ui/text';
+import { ArticleState } from 'src/types/article';
 
 import styles from './Article.module.scss';
 
-export const Article = () => {
+interface ArticleProps {
+	articleState?: ArticleState;
+}
+
+export const Article = ({}: ArticleProps) => {
 	return (
 		<article className={clsx(styles.article)}>
 			<Text as='h1' size={45} weight={800} uppercase dynamicLite>
@@ -19,15 +22,16 @@ export const Article = () => {
 			</div>
 			<img className={styles.image} src={plane} alt='Картинка самолета' />
 			<Text dynamic size={18} fontStyle='italic'>
-				Фото: Hans-Peter Gauster , &quot;Bombardier CSeries CS300 HB-JCA&quot; ©
-				2017 CC BY-SA 2.0
+				Фото: Hans-Peter Gauster , &quot;Bombardier CSeries CS300 HB-JCA&quot;
+				&copy; 2017 CC BY-SA 2.0
 			</Text>
 			<Text dynamic size={18}>
 				В конце 2016 года швейцарская авиакомпания Swiss получила свой первый
-				канадский «Бомбардье CS300» для полётов малой и средней дальности. Чтобы
-				придать новой 145-местной машине неповторимую индивидуальность, ливрею
-				заказали живописцу. При условии, что эскиз он выполнит в одиночку и
-				лично поправит роспись, когда её будут наносить на фюзеляж.
+				канадский &quot;Бомбардье CS300&quot; для полётов малой и средней
+				дальности. Чтобы придать новой 145-местной машине неповторимую
+				индивидуальность, ливрею заказали живописцу. При условии, что эскиз он
+				выполнит в одиночку и лично поправит роспись, когда её будут наносить на
+				фюзеляж.
 			</Text>
 			<Text dynamic size={18}>
 				Выбор пал на примитивиста Матиаса Форбаша, работающего под псевдонимом

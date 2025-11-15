@@ -25,6 +25,19 @@
 	border-right: 1px solid #000000;
 }
 
+.formContent {
+	flex: 1;
+	overflow-y: auto;
+}
+
+.formContent > * {
+	margin-bottom: 50px;
+}
+
+.formContent > *:last-child {
+	margin-bottom: 0;
+}
+
 .bottomContainer {
 	display: flex;
 	justify-content: space-between;

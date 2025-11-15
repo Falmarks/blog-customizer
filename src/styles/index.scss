@@ -1,8 +1,4 @@
-/* Подключаем стили со шрифтами, так как они нужны на всех страницах */
-
 @import '~fonts/font';
-
-/* Отключаем браузерные дефолтные стили для всех элементов */
 
 html,
 div,
@@ -92,8 +88,6 @@ video {
 	border: 0;
 }
 
-/* HTML5 display-role reset for older browsers */
-
 article,
 aside,
 details,
@@ -133,10 +127,38 @@ blockquote::after,
 q::before,
 q::after {
 	content: '';
-	content: none;
 }
 
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+
+.dynamic,
+.dynamicLite {
+	color: var(--font-color, #000000) !important;
+	font-family: var(--font-family, 'Open Sans'), sans-serif !important;
+}
+
+.dynamic {
+	font-size: var(--font-size, 18px) !important;
+}
+
+.dynamicLite {
+	font-size: inherit !important;
+}
+
+article {
+	color: var(--font-color, #000000) !important;
+	font-family: var(--font-family, 'Open Sans'), sans-serif !important;
+	background-color: var(--bg-color, #ffffff) !important;
+
+	& * {
+		color: var(--font-color, #000000) !important;
+		font-family: var(--font-family, 'Open Sans'), sans-serif !important;
+	}
+
+	.dynamic {
+		font-size: var(--font-size, 18px) !important;
+	}
 }

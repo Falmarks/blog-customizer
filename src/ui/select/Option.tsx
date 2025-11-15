@@ -13,6 +13,8 @@ type OptionProps = {
 	onClick: (value: OptionType['value']) => void;
 };
 
+type StyleKey = Extract<keyof typeof styles, string>;
+
 export const Option = (props: OptionProps) => {
 	const {
 		option: { value, title, optionClassName, className },
@@ -20,11 +22,19 @@ export const Option = (props: OptionProps) => {
 	} = props;
 	const optionRef = useRef<HTMLLIElement>(null);
 
-	const handleClick =
-		(clickedValue: OptionType['value']): MouseEventHandler<HTMLLIElement> =>
-		() => {
+	const handleClick = (
+		clickedValue: OptionType['value']
+	): MouseEventHandler<HTMLLIElement> => {
+		return () => {
 			onClick(clickedValue);
 		};
+	};
+
+	const isValidStyleClass = (
+		className: string | undefined
+	): className is StyleKey => {
+		return !!className && className in styles;
+	};
 
 	useEnterOptionSubmit({
 		optionRef,
@@ -32,14 +42,33 @@ export const Option = (props: OptionProps) => {
 		onClick,
 	});
 
+	// Проверяем, нужно ли показывать иконку
+	const shouldShowIcon =
+		optionClassName?.includes('wide') ||
+		optionClassName?.includes('narrow') ||
+		optionClassName?.includes('option-');
+
 	return (
 		<li
-			className={clsx(styles.option, styles[optionClassName || ''])}
+			className={clsx(
+				styles.option,
+				optionClassName &&
+					isValidStyleClass(optionClassName) &&
+					styles[optionClassName]
+			)}
 			value={value}
 			onClick={handleClick(value)}
 			tabIndex={0}
 			data-testid={`select-option-${value}`}
 			ref={optionRef}>
+			{shouldShowIcon && (
+				<span
+					className={clsx(
+						styles.optionIcon,
+						optionClassName && styles[optionClassName]
+					)}
+				/>
+			)}
 			<Text family={isFontFamilyClass(className) ? className : undefined}>
 				{title}
 			</Text>
